@@ -2,6 +2,7 @@ import json
 import string
 import random
 import PySimpleGUIQt as sg
+import pyperclip
 
 letters = string.ascii_letters
 numbers = string.digits
@@ -28,7 +29,7 @@ def pwd_random(num):
     return pwd
 
 
-sg.theme('DarkGreen')
+sg.theme('DarkTeal12')
 
 col1_layout = [[sg.Text("Number of words in your password (2-5)")],
         [sg.Slider(range=(2, 5), default_value=3, tick_interval=1, orientation='h',
@@ -45,7 +46,7 @@ layout = [
     [sg.Column(col1_layout)],
 
     [sg.Column(col2_layout)],
-    [sg.Button('Submit'), sg.Text('      '), sg.Exit()],
+    [sg.Button('Submit'), sg.Text('      '), sg.Exit(), sg.Text('      '),  sg.Button('Copy Password')],
     [sg.Text("Your New Password Will Display Here", key='-OUTPUT-', font=('Courier',18),
              text_color='white')]
 ]
@@ -64,4 +65,7 @@ while True:
             window['-OUTPUT-'].update(pwd)
         else:
             sg.Popup("Rats")
+    if event == "Copy Password":
+        pyperclip.copy(pwd)
+        sg.Popup("Password Copied To Clipboard!", title="Copied")
 window.close()
